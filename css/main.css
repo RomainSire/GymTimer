@@ -1,0 +1,73 @@
+html,body {
+  height: 100%;
+}
+body {
+  background: center / cover no-repeat fixed url("../img/bg.jpg");
+  line-height: 1.4em;
+}
+h1 {
+  text-align: center;
+  font-size: 2em;
+  line-height: 1.1em;
+  font-weight: bold;
+  padding: 30px 0;
+}
+#GymTimer {
+  width: 90%;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px 20px;
+  border-radius: 30px;
+  background: #fff6;
+  box-shadow: 0 0 20px #0008;
+}
+#GymTimer h2 {
+  font-size: 1.2em;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+#GymTimer form {
+  margin-bottom: 30px;
+}
+#GymTimer form p {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid #555;
+  border-radius: 20px;
+  padding: 5px 15px;
+  margin-bottom: 7px;
+}
+#GymTimer input {
+  background: none;
+  border: none;
+}
+#GymTimer input[name="exo"] {
+  flex-grow: 2;
+  border-right: 1px solid #555;
+}
+#GymTimer input[name="temps"] {
+  padding-left: 10px;
+  width: 80px;
+}
+#GymTimer span {
+  padding-left: 10px;
+}
+#GymTimer button {
+  background: #aed2f2;
+  padding: 7px 15px;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 0 0 10px #0008;
+}
+#GymTimer>p {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+#GymTimer>p button {
+  margin: 5px 0;
+}
