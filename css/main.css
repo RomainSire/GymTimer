@@ -74,7 +74,7 @@ h1 {
 #GymTimer button {
   background: #ddd7;
   padding: 7px 15px;
-  border: none;
+  border: 1px solid #5558;
   border-radius: 25px;
   cursor: pointer;
   transition: all 0.2s;
