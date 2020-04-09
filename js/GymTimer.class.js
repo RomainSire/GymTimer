@@ -136,10 +136,12 @@ GymTimer.prototype = {
     // get the name and the time of the exercice
     var exoName = serie[that.i]["exo"];
     var exoTimeLeft = parseInt(serie[that.i]["temps"]);
-    // Perform the exercice
-    console.log(exoName, exoTimeLeft);
-    // When the exercice is finished do as follows :
-    var chrono = setTimeout(function() {
+
+    // set a timeout, triggered at the end of the exercice
+    var timer = setTimeout(function() {
+      // When the exercice is finished do as follows :
+      // stop the chrono
+      clearInterval(chrono);
       // if it's the end of the series, stop execution
       if (that.i === serie.length-1) {
         console.log("fini !");
@@ -148,7 +150,15 @@ GymTimer.prototype = {
       // if not, increment the exercice, and method calls itself again! for the next exercice
       that.i++;
       that.startSerie(serie, that);
-    }, (exoTimeLeft * 1000))
+    }, (exoTimeLeft * 1000));
+
+    // set an interval for the countdown during the exercice
+    console.log(exoName, exoTimeLeft);
+    var chrono = setInterval(function() {
+      exoTimeLeft--;
+      console.log(exoName, exoTimeLeft);
+    }, 1000);
+
   },
 
 
