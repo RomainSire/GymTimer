@@ -4,7 +4,7 @@
  */
 var GymTimer = function() {
   this.targetDiv = document.getElementById('GymTimer');
-
+  this.i = 0;
 }
 
 GymTimer.prototype = {
@@ -127,6 +127,31 @@ GymTimer.prototype = {
   },
 
 
+
+  /**
+   * Executed when a serie of exercice is started
+   *  !!!  WORK IN PROGRESS  !!!
+   */
+  startSerie: function(serie, that) {
+    // get the name and the time of the exercice
+    var exoName = serie[that.i]["exo"];
+    var exoTimeLeft = parseInt(serie[that.i]["temps"]);
+    // Perform the exercice
+    console.log(exoName, exoTimeLeft);
+    // When the exercice is finished do as follows :
+    var chrono = setTimeout(function() {
+      // if it's the end of the series, stop execution
+      if (that.i === serie.length-1) {
+        console.log("fini !");
+        return
+      }
+      // if not, increment the exercice, and method calls itself again! for the next exercice
+      that.i++;
+      that.startSerie(serie, that);
+    }, (exoTimeLeft * 1000))
+  },
+
+
   /** ------------------------------------------------- **\
    *             METHODS TRIGGERED BY EVENTS
   \** -------------------------------------------------  */
@@ -169,49 +194,18 @@ GymTimer.prototype = {
 
 
   /**
-   * METHODE TEST !  (WORK IN PROGRESS !)
-   */
-  countdown: function() {
-    console.log("coucou !");
-  },
-
-  /**
    * Called when "START" button is clicked
    */
   onStartExerciceClicked: function(event) {
     event.preventDefault();
     // read and format the exercices form
     var serie = this.readForm();
-    console.log(serie);
 
-    var exoName = serie[0]["exo"];
-    var secondsLeft = parseInt(serie[0]["temps"]);
-    console.log(exoName, secondsLeft);
+    // iterration started
+    this.i = 0;
 
-    setInterval(function(){
-      console.log(secondsLeft);
-      secondsLeft--;
-
-    }, 1000);
-
-    console.log("fini !");
-
-    // var timer = window.setInterval(this.countdown(), 1000);
-
-    // // For each exercice of the serie :
-    // for (var i = 0; i < serie.length; i++) {
-    //   var exoName = serie[i]["exo"];
-    //   var exoTime = parseInt(serie[i]["temps"]);
-    //   var timerSecond = window.setInterval(doIt, 1000);
-    // }
-
-
-    // var p = document.createElement("p");
-    // p.textContent = "Touch my tralala";
-    // this.targetDiv.appendChild(p);
-
-    // Faire disparaitre le form et tout
-    // afficher le nom et le compte à rebours
+    // start exercices
+    this.startSerie(serie, this);
 
   },
 
