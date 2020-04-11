@@ -94,3 +94,14 @@ h1 {
 #GymTimer>p button {
   margin: 5px 0;
 }
+#GymTimer .exercice-name {
+  text-align: center;
+  font-size: 3.5em;
+  line-height: 1.4em;
+}
+#GymTimer .exercice-time {
+  font-size: 6em;
+  font-weight: bold;
+  line-height: 1.4em;
+  margin: 40px auto;
+}
