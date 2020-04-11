@@ -3,7 +3,9 @@
  * GymTimer class
  */
 var GymTimer = function() {
+  // Target html element :
   this.targetDiv = document.getElementById('GymTimer');
+  // Global iterration variable
   this.i = 0;
 }
 
@@ -33,7 +35,7 @@ GymTimer.prototype = {
     if (exoTime) {
       inputTime.setAttribute("value", exoTime);
     }
-    // create a span tu put unit
+    // create a span to put unit
     var span = document.createElement('span');
     span.textContent = " sec."
     // create delete button
@@ -43,7 +45,7 @@ GymTimer.prototype = {
     var fas = document.createElement('i');
     fas.setAttribute('class', 'fas fa-trash');
     deleteBtn.appendChild(fas);
-    // addEventListener on the belete button
+    // addEventListener on the delete button
     deleteBtn.addEventListener('click', this.onDeleteBtnClicked);
     // insert the right things at the right place
     var p = document.createElement('p');
@@ -54,59 +56,6 @@ GymTimer.prototype = {
 
     return p;
   },
-
-
-  /**
-   * Create the different html elements at start up
-   */
-  initiateHtml: function() {
-    // the target div is emptied
-    this.targetDiv.innerHTML = "";
-
-    // Creation of the form (to enter the exercices and times)
-    var form = document.createElement('form');
-    // title
-    var h2 = document.createElement("h2");
-    h2.textContent = "Série d'exercies et leur temps d'exécution";
-    form.appendChild(h2);
-    // serie of exercice (check if a serie is already saved in localStorage)
-    var serie = JSON.parse(window.localStorage.getItem('GYM_TIMER_SERIE'));
-    if (serie !== null && serie.length > 0) {
-      // serie already exists : create line for each exercice
-      for (var i = 0; i < serie.length; i++) {
-        var exoName = serie[i]["exo"];
-        var exoTime = serie[i]["temps"]
-        var p = this.addNewExercice(exoName, exoTime);
-        form.appendChild(p);
-      }
-    } else {
-      // serie doesn't exist : create only 1 new blank exercice
-      var p = this.addNewExercice();
-      form.appendChild(p);
-    }
-    // add exercice button
-    var newExerciceButton = document.createElement('button');
-    newExerciceButton.setAttribute("class", "addExercice");
-    var fas =  document.createElement('i');
-    fas.setAttribute("class", "fas fa-plus-circle");
-    newExerciceButton.appendChild(fas);
-    form.appendChild(newExerciceButton);
-    // append form to the targetted div
-    this.targetDiv.appendChild(form);
-
-    // Creation of the buttons to start the exercices and save the serie of exercices
-    var p2 = document.createElement("p");
-    var startExerciceButton = document.createElement("button");
-    startExerciceButton.textContent = "START";
-    startExerciceButton.setAttribute("class", "startExercices");
-    p2.appendChild(startExerciceButton);
-    var saveButton = document.createElement('button');
-    saveButton.textContent = "SAVE";
-    saveButton.setAttribute("class", "save");
-    p2.appendChild(saveButton);
-    this.targetDiv.appendChild(p2);
-  },
-
 
 
   /**
@@ -133,9 +82,33 @@ GymTimer.prototype = {
    *  !!!  WORK IN PROGRESS  !!!
    */
   startSerie: function(serie, that) {
+    // the target div is emptied
+    this.targetDiv.innerHTML = "";
+
     // get the name and the time of the exercice
     var exoName = serie[that.i]["exo"];
     var exoTimeLeft = parseInt(serie[that.i]["temps"]);
+
+    // display the name of the current exercice
+    var h2 = document.createElement("h2");
+    h2.textContent = exoName;
+    h2.setAttribute("class", "exercice-name");
+    that.targetDiv.appendChild(h2);
+
+    // display the time left for the exercie
+    var p = document.createElement("p");
+    p.textContent = exoTimeLeft;
+    p.setAttribute("class", 'exercice-time');
+    that.targetDiv.appendChild(p);
+
+    // set a 1 second interval for the countdown during the exercice
+    var chrono = setInterval(function() {
+      // decrement the time left for the exercice
+      exoTimeLeft--;
+      // display it
+      var time = that.targetDiv.querySelector("p.exercice-time");
+      time.innerHTML = exoTimeLeft;
+    }, 1000);
 
     // set a timeout, triggered at the end of the exercice
     var timer = setTimeout(function() {
@@ -144,20 +117,13 @@ GymTimer.prototype = {
       clearInterval(chrono);
       // if it's the end of the series, stop execution
       if (that.i === serie.length-1) {
-        console.log("fini !");
+        that.start();
         return
       }
       // if not, increment the exercice, and method calls itself again! for the next exercice
       that.i++;
       that.startSerie(serie, that);
     }, (exoTimeLeft * 1000));
-
-    // set an interval for the countdown during the exercice
-    console.log(exoName, exoTimeLeft);
-    var chrono = setInterval(function() {
-      exoTimeLeft--;
-      console.log(exoName, exoTimeLeft);
-    }, 1000);
 
   },
 
@@ -225,10 +191,52 @@ GymTimer.prototype = {
    *                 APPLICATION START UP
   \** -------------------------------------------------  */
 
-
   start: function() {
-    // html Form building
-    this.initiateHtml();
+    // the target div is emptied
+    this.targetDiv.innerHTML = "";
+
+    // Creation of the form (to enter the exercices and times)
+    var form = document.createElement('form');
+    // title
+    var h2 = document.createElement("h2");
+    h2.textContent = "Série d'exercies et leur temps d'exécution";
+    form.appendChild(h2);
+    // serie of exercice (check if a serie is already saved in localStorage)
+    var serie = JSON.parse(window.localStorage.getItem('GYM_TIMER_SERIE'));
+    if (serie !== null && serie.length > 0) {
+      // serie already exists : create line for each exercice
+      for (var i = 0; i < serie.length; i++) {
+        var exoName = serie[i]["exo"];
+        var exoTime = serie[i]["temps"]
+        var p = this.addNewExercice(exoName, exoTime);
+        form.appendChild(p);
+      }
+    } else {
+      // serie doesn't exist : create only 1 new blank exercice
+      var p = this.addNewExercice();
+      form.appendChild(p);
+    }
+    // add exercice button
+    var newExerciceButton = document.createElement('button');
+    newExerciceButton.setAttribute("class", "addExercice");
+    var fas =  document.createElement('i');
+    fas.setAttribute("class", "fas fa-plus-circle");
+    newExerciceButton.appendChild(fas);
+    form.appendChild(newExerciceButton);
+    // append form to the targetted div
+    this.targetDiv.appendChild(form);
+
+    // Creation of the buttons to start the exercices and save the serie of exercices
+    var p2 = document.createElement("p");
+    var startExerciceButton = document.createElement("button");
+    startExerciceButton.textContent = "START";
+    startExerciceButton.setAttribute("class", "startExercices");
+    p2.appendChild(startExerciceButton);
+    var saveButton = document.createElement('button');
+    saveButton.textContent = "SAVE";
+    saveButton.setAttribute("class", "save");
+    p2.appendChild(saveButton);
+    this.targetDiv.appendChild(p2);
 
     // event listener start up
     document.querySelector("#GymTimer .addExercice").addEventListener("click", this.onAddExerciceClicked.bind(this));
@@ -237,5 +245,6 @@ GymTimer.prototype = {
 
     document.querySelector('#GymTimer .save').addEventListener('click', this.onSaveClicked.bind(this));
   }
+
 
 }
