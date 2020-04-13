@@ -83,7 +83,7 @@ GymTimer.prototype = {
    */
   startSerie: function(serie, that) {
     // the target div is emptied
-    this.targetDiv.innerHTML = "";
+    that.targetDiv.innerHTML = "";
 
     // get the name and the time of the exercice
     var exoName = serie[that.i]["exo"];
