@@ -79,11 +79,10 @@ GymTimer.prototype = {
 
   /**
    * Executed when a serie of exercice is started
-   *  !!!  WORK IN PROGRESS  !!!
    */
   startSerie: function(serie, that) {
     // the target div is emptied
-    that.targetDiv.innerHTML = "";
+    this.targetDiv.innerHTML = "";
 
     // get the name and the time of the exercice
     var exoName = serie[that.i]["exo"];
@@ -100,6 +99,17 @@ GymTimer.prototype = {
     p.textContent = exoTimeLeft;
     p.setAttribute("class", 'exercice-time');
     that.targetDiv.appendChild(p);
+
+    // display the name of the next exercice
+    var nextExo = serie[that.i + 1];
+    var h3 = document.createElement("h3");
+    if (nextExo === undefined) {
+      h3.textContent = "Dernier exercice !"
+    } else {
+      h3.textContent = "NEXT : " + nextExo["exo"] + ", " + nextExo["temps"] + " sec.";
+    }
+    h3.setAttribute("class", "next-exercice");
+    that.targetDiv.appendChild(h3);
 
     // set a 1 second interval for the countdown during the exercice
     var chrono = setInterval(function() {
