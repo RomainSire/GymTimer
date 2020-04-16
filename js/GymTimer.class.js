@@ -118,6 +118,12 @@ GymTimer.prototype = {
       // display it
       var time = that.targetDiv.querySelector("p.exercice-time");
       time.innerHTML = exoTimeLeft;
+      //
+      if (exoTimeLeft < 4 || exoTimeLeft % 10 === 0) {
+        var audio = new Audio('sound/bip.mp3');
+        audio.play();
+      }
+
     }, 1000);
 
     // set a timeout, triggered at the end of the exercice
