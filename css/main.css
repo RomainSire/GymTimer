@@ -105,3 +105,8 @@ h1 {
   line-height: 1.4em;
   margin: 40px auto;
 }
+#GymTimer .next-exercice {
+  font-size: 2em;
+  line-height: 1.4em;
+  text-align: center;
+}
