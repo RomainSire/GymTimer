@@ -1,6 +1,5 @@
 # GymTimer
-A timer to follow your own serie of exercices  
-Designed for isometric exercices (core strength)  
+A simple timer to follow your own serie of exercices  
 
 ## Operation
 You can add as much exercices as you want, and its execution time.  
