@@ -1,5 +1,5 @@
 # GymTimer
-A simple timer to follow your own serie of exercices  
+A simple timer to follow your own serie of exercices
 
 ## Operation
 You can add as much exercices as you want, and its execution time.  
